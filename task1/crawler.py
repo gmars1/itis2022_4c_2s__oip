@@ -8,22 +8,16 @@ from bs4 import BeautifulSoup
 def clean_html(html: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
 
-    # удалить script и style теги
-    for tag in soup(["script", "style"]):
+    # удалить ненужные теги
+    for tag in soup(["script", "style", "iframe", "header", "footer", "nav"]):
         tag.decompose()
 
-    # удалить <link rel="stylesheet">
-    for link in soup.find_all("link", rel="stylesheet"):
-        link.decompose()
+    # получить текст
+    text = soup.get_text(separator="\n")  # \n для разделения блоков текста
 
-    # удалить inline JS (onclick, onload и т.д.)
-    for tag in soup.find_all(True):
-        attrs = list(tag.attrs)
-        for attr in attrs:
-            if attr.lower().startswith("on"):
-                del tag.attrs[attr]
-
-    return str(soup)
+    # очистить лишние пробелы и пустые строки
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    return "\n".join(lines)
 
 
 def get_links_from_file(filename: str) -> list[str]:
