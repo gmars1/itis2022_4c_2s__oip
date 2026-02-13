@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 
 
 def clean_html(html: str) -> str:
+    """Extract text from html"""
     soup = BeautifulSoup(html, "html.parser")
 
     # удалить ненужные теги
@@ -21,6 +22,7 @@ def clean_html(html: str) -> str:
 
 
 def get_links_from_file(filename: str) -> list[str]:
+    """Load links from file"""
     with open(filename) as f:
         links = [line for line in f]
     return links
@@ -41,29 +43,30 @@ def get(url: str) -> str:
 
 
 def main():
-    links = get_links_from_file("target_list.txt")
+    links = get_links_from_file("target_list.txt")  # получаем ссылки
 
-    os.makedirs("crawled", exist_ok=True)
+    os.makedirs("crawled", exist_ok=True)  # если нет директории с выгрузкой - создаем
 
-    index_f = open("index.txt", "w")
+    index_f = open("index.txt", "w")  # открываем файл для индекса
 
+    # проходимся по каждой ссылке
     for i, url in enumerate(links):
         print(f"Crawling {url.strip()}...")
         html = get(url)
         html = clean_html(html)
 
-        if html:
-            filename = f"crawled/{i}.txt"
+        if html:  # если не пусто
+            filename = f"crawled/{i}.txt"  # конструируем название файла с выгрузкой
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(html)
             print(f"Saved to {filename}")
 
-            index_f.write(f"{i} {url}")
+            index_f.write(f"{i} {url}")  # записываем в индекс
             print("Saved to index file\n")
 
-        time.sleep(0.2)
+        time.sleep(0.2)  # для rate limit
 
-    index_f.close()
+    index_f.close()  # закрываем файл с индексом
 
     print("Crawling completed!")
 
