@@ -6,6 +6,6 @@
 
 `cd task1`
 
-`python target_list_generator.py` заполнить `target_list.txt`
+`python target_list_generator.py` - заполнить `target_list.txt`
 
 `python crawler.py` - скачать страницы в `crawled/`; заполнить `index.txt`
