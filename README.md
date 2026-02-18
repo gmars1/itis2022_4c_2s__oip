@@ -4,8 +4,8 @@
 
 ## task1
 
-`cd task1`
+> starting from project root
 
-`python target_list_generator.py` - заполнить `target_list.txt`
+`python -m task1.target_list_generator` - заполнить `target_list.txt`
 
-`python crawler.py` - скачать страницы в `crawled/`; заполнить `index.txt`
+`python -m task1.crawler` - скачать страницы в `crawled/`; заполнить `index.txt`
