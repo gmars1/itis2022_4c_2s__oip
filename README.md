@@ -40,3 +40,21 @@ python -m task2.main
 > 
 > требуется:
 > - `task1/crawled/`
+
+## task3 
+
+```bash
+python -m task3.invert_index_creator
+```
+> заполнить `task3/invert_index.txt`
+> 
+> требуется:
+> - `task2/tokens.txt`
+> - `task1/crawled/`
+
+```bash
+python -m task3.search
+```
+> cli для поиска
+
+
