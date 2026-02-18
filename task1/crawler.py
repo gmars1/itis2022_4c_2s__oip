@@ -43,11 +43,13 @@ def get(url: str) -> str:
 
 
 def main():
-    links = get_links_from_file("target_list.txt")  # получаем ссылки
+    links = get_links_from_file("task1/target_list.txt")  # получаем ссылки
 
-    os.makedirs("crawled", exist_ok=True)  # если нет директории с выгрузкой - создаем
+    os.makedirs(
+        "task1/crawled", exist_ok=True
+    )  # если нет директории с выгрузкой - создаем
 
-    index_f = open("index.txt", "w")  # открываем файл для индекса
+    index_f = open("task1/index.txt", "w")  # открываем файл для индекса
 
     # проходимся по каждой ссылке
     for i, url in enumerate(links):
@@ -56,7 +58,9 @@ def main():
         html = clean_html(html)
 
         if html:  # если не пусто
-            filename = f"crawled/{i}.txt"  # конструируем название файла с выгрузкой
+            filename = (
+                f"task1/crawled/{i}.txt"  # конструируем название файла с выгрузкой
+            )
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(html)
             print(f"Saved to {filename}")

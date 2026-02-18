@@ -8,7 +8,7 @@ def fill_links_to_file(filename: str) -> None:
 
 def main():
     """Main function."""
-    fill_links_to_file("target_list.txt")
+    fill_links_to_file("task1/target_list.txt")
     print("Complete!")
 
 
