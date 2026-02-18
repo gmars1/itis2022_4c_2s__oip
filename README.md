@@ -6,6 +6,6 @@
 
 > starting from project root
 
-`python -m task1.target_list_generator` - заполнить `target_list.txt`
+`python -m task1.target_list_generator` - заполнить `task1/target_list.txt`
 
-`python -m task1.crawler` - скачать страницы в `crawled/`; заполнить `index.txt`
+`python -m task1.crawler` - скачать страницы в `task1/crawled/`; заполнить `task1/index.txt`
