@@ -49,28 +49,25 @@ def main():
         "task1/crawled", exist_ok=True
     )  # если нет директории с выгрузкой - создаем
 
-    index_f = open("task1/index.txt", "w")  # открываем файл для индекса
+    with open("task1/index.txt", "w") as index_f:  # открываем файл для индекса
+        # проходимся по каждой ссылке
+        for i, url in enumerate(links):
+            print(f"Crawling {url.strip()}...")
+            html = get(url)
+            html = clean_html(html)
 
-    # проходимся по каждой ссылке
-    for i, url in enumerate(links):
-        print(f"Crawling {url.strip()}...")
-        html = get(url)
-        html = clean_html(html)
+            if html:  # если не пусто
+                filename = (
+                    f"task1/crawled/{i}.txt"  # конструируем название файла с выгрузкой
+                )
+                with open(filename, "w", encoding="utf-8") as f:
+                    f.write(html)
+                print(f"Saved to {filename}")
 
-        if html:  # если не пусто
-            filename = (
-                f"task1/crawled/{i}.txt"  # конструируем название файла с выгрузкой
-            )
-            with open(filename, "w", encoding="utf-8") as f:
-                f.write(html)
-            print(f"Saved to {filename}")
+                index_f.write(f"{i} {url}")  # записываем в индекс
+                print("Saved to index file\n")
 
-            index_f.write(f"{i} {url}")  # записываем в индекс
-            print("Saved to index file\n")
-
-        time.sleep(0.2)  # для rate limit
-
-    index_f.close()  # закрываем файл с индексом
+            time.sleep(0.2)  # для rate limit
 
     print("Crawling completed!")
 
