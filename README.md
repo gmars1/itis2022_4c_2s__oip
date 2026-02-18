@@ -1,5 +1,11 @@
 # itis2022_4c_2s__oip
 
+> Газизов Марсель, 11-202
+
+---
+
+## before all
+
 `pip install -r requirements.txt`
 
 ## task1
