@@ -1,5 +1,6 @@
 beautifulsoup4
 
+nltk
 pymorphy2
 pymorphy2-dicts-ru
 setuptools<81
