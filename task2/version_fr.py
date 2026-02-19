@@ -25,8 +25,7 @@ class FrProcessor(LanguageProcessor):
         Load and return the French spaCy model.
         Uses lru_cache to load only once.
         """
-        # Скачиваем французскую модель
-        spacy.cli.download("fr_core_news_sm")
+        # загружаем французскую модель
         return spacy.load("fr_core_news_sm")
 
     def get_word_info(self, word: str) -> Optional[Any]:

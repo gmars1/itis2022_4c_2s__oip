@@ -64,6 +64,7 @@ def fill_file_into_storages(
     """
     lang: Optional[Language]
     word_info: Any
+    print(f"processing file: {filename}")
 
     with open(filename, encoding="utf-8") as f:
         for line in f:
