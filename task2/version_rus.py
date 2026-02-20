@@ -20,7 +20,7 @@ from task2.verson_abstarct import LanguageProcessor
 
 class RusProcessor(LanguageProcessor):
     # Initialize morphological analyzer
-    morph = pymorphy2.MorphAnalyzer()
+    morph = pymorphy2.MorphAnalyzer(lang="ru")
 
     # Parts of speech to filter out (like prepositions, conjunctions)
     BAD_POS = {
@@ -30,13 +30,22 @@ class RusProcessor(LanguageProcessor):
         # "INTJ",  # interjection (commented out)
     }
 
+    NOT_GOOD = {"LATN", "PNCT", "NUMB", "intg", "real", "ROMN", "UNKN"}
+
     @lru_cache(maxsize=10_000)
     def get_word_info(self, word: str) -> Any:
         """
-        Returns the pymorphy2 Parse object for a single word.
+        Returns the pymorphy2 Parse object for a single word or None
         Uses caching to improve performance for repeated words.
         """
-        return self.morph.parse(word)[0]
+        p = self.morph.parse(word)[0]
+        if p.tag.POS is None:
+            print(f"rus analyzer could not analyze word: {word}")
+            return None
+        if p.tag.POS in self.NOT_GOOD:
+            print(f"rus analyzer: not a rus word: {word}")
+            return None
+        return p
 
     def filter(self, word_info: Any) -> Optional[Any]:
         """
