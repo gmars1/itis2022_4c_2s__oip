@@ -20,7 +20,7 @@ from task2.verson_abstarct import LanguageProcessor
 
 class RusProcessor(LanguageProcessor):
     # Initialize morphological analyzer
-    morph = pymorphy2.MorphAnalyzer()
+    morph = pymorphy2.MorphAnalyzer(lang="ru")
 
     # Parts of speech to filter out (like prepositions, conjunctions)
     BAD_POS = {
