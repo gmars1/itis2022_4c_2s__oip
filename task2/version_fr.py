@@ -37,7 +37,7 @@ class FrProcessor(LanguageProcessor):
         doc = nlp(word)
         if len(doc) > 0:
             return doc[0]
-        print(f"Failed to parse word: {word}")
+        print(f"fr failed to parse word: {word}")
         return None
 
     def filter(self, word_info: Any) -> Optional[Any]:
