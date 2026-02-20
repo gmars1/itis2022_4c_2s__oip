@@ -1,6 +1,6 @@
-# from functools import lru_cache
 import inspect
 from collections import namedtuple
+from functools import lru_cache
 from typing import Any, Optional
 
 # compatibility fix for Python ≥3.11
@@ -30,7 +30,7 @@ class RusProcessor(LanguageProcessor):
         # "INTJ",  # interjection (commented out)
     }
 
-    # @lru_cache(maxsize=50_000)
+    @lru_cache(maxsize=10_000)
     def get_word_info(self, word: str) -> Any:
         """
         Returns the pymorphy2 Parse object for a single word.

@@ -28,6 +28,7 @@ class FrProcessor(LanguageProcessor):
         # загружаем французскую модель
         return spacy.load("fr_core_news_sm")
 
+    @lru_cache(maxsize=10_000)
     def get_word_info(self, word: str) -> Optional[Any]:
         """
         Returns a spaCy Token object for a single word.

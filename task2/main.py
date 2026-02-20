@@ -19,7 +19,7 @@ rusProcessor: LanguageProcessor = RusProcessor()
 frProcessor: LanguageProcessor = FrProcessor()
 
 
-@lru_cache(maxsize=10_000)
+@lru_cache(maxsize=50_000)
 def detect_language(word: str) -> Optional[Language]:
     """
     Detect the language of a word based on character set.
@@ -144,6 +144,9 @@ def main() -> None:
     fill_folder_files_into_storages("task1/crawled", tokens, lemmas)
 
     # print(detect_language.cache_info())
+    # print(frProcessor.get_word_info.cache_info())
+    # print(frProcessor.get_word_info.cache_info())
+
     # Write tokens
     with open("task2/tokens.txt", "w", encoding="utf-8") as f:
         for token in sorted(tokens):
