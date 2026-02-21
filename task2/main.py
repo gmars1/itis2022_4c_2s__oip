@@ -32,7 +32,7 @@ def detect_language(word: str) -> Optional[Language]:
     if all(("а" <= char.lower() <= "я") or char.lower() == "ё" for char in word):
         return Language.RUS
 
-    if any(ch in "éèêëàâîïôùûüçœæ" for ch in word):
+    if any(ch.lower() in "éèêëàâîïôùûüçœæ" for ch in word):
         return Language.FR
 
     # Check if all characters are Latin
