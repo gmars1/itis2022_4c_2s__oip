@@ -5,6 +5,30 @@ import urllib.request
 from bs4 import BeautifulSoup
 
 
+def load_files_and_fill_index(folder: str, links: list[str], index_file_name: str):
+    os.makedirs(folder, exist_ok=True)  # если нет директории с выгрузкой - создаем
+
+    with open(index_file_name, "w") as index_f:  # открываем файл для индекса
+        # проходимся по каждой ссылке
+        for i, url in enumerate(links):
+            print(f"Crawling {url.strip()}...")
+            html = get(url)
+            html = clean_html(html)
+
+            if html:  # если не пусто
+                filename = (
+                    f"{folder}/{i}.txt"  # конструируем название файла с выгрузкой
+                )
+                with open(filename, "w", encoding="utf-8") as f:
+                    f.write(html)
+                print(f"Saved to {filename}")
+
+                index_f.write(f"{i} {url}")  # записываем в индекс
+                print("Saved to index file\n")
+
+            time.sleep(0.2)  # для rate limit
+
+
 def clean_html(html: str) -> str:
     """Extract text from html"""
     soup = BeautifulSoup(html, "html.parser")
@@ -45,29 +69,7 @@ def get(url: str) -> str:
 def main():
     links = get_links_from_file("task1/target_list.txt")  # получаем ссылки
 
-    os.makedirs(
-        "task1/crawled", exist_ok=True
-    )  # если нет директории с выгрузкой - создаем
-
-    with open("task1/index.txt", "w") as index_f:  # открываем файл для индекса
-        # проходимся по каждой ссылке
-        for i, url in enumerate(links):
-            print(f"Crawling {url.strip()}...")
-            html = get(url)
-            html = clean_html(html)
-
-            if html:  # если не пусто
-                filename = (
-                    f"task1/crawled/{i}.txt"  # конструируем название файла с выгрузкой
-                )
-                with open(filename, "w", encoding="utf-8") as f:
-                    f.write(html)
-                print(f"Saved to {filename}")
-
-                index_f.write(f"{i} {url}")  # записываем в индекс
-                print("Saved to index file\n")
-
-            time.sleep(0.2)  # для rate limit
+    load_files_and_fill_index("task1/crawled", links, "task1/index.txt")
 
     print("Crawling completed!")
 
