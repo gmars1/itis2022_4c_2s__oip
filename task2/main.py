@@ -18,6 +18,9 @@ class Language(Enum):
 rusProcessor: LanguageProcessor = RusProcessor()
 frProcessor: LanguageProcessor = FrProcessor()
 
+TOKENS_FOLDER = "task2/tokens/"
+LEMMAS_FOLDER = "task2/lemmas/"
+
 
 @lru_cache(maxsize=50_000)
 def detect_language(word: str) -> Optional[Language]:
@@ -66,6 +69,9 @@ def fill_file_into_storages(
     word_info: Any
     print(f"processing file: {filename}")
 
+    tokens_curr: Set[str] = set()
+    lemmas_curr: Dict[str, Set[str]] = dict()
+    file_index = int(filename.replace("task1/crawled/", "").replace(".txt", ""))
     with open(filename, encoding="utf-8") as f:
         for line in f:
             for word in word_tokenize(line.strip()):
@@ -85,10 +91,22 @@ def fill_file_into_storages(
 
                 # Add to tokens set
                 tokens.add(word)
+                tokens_curr.add(word)
 
                 # Get lemma and add to lemmas dictionary
                 if lemma := language_specific_lemmatizer(word_info, lang):
                     lemmas.setdefault(lemma, set()).add(word)
+                    lemmas_curr.setdefault(lemma, set()).add(word)
+
+    # Write tokens
+    with open(f"{TOKENS_FOLDER}{file_index}.txt", "w", encoding="utf-8") as f:
+        for token in sorted(tokens_curr):
+            f.write(token + "\n")
+
+    # Write lemmas
+    with open(f"{LEMMAS_FOLDER}{file_index}.txt", "w", encoding="utf-8") as f:
+        for lemma, words in sorted(lemmas_curr.items()):
+            f.write(f"{lemma} {' '.join(sorted(words))}\n")
 
 
 def common_filter(word: str) -> Optional[str]:
