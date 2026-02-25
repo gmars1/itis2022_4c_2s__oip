@@ -53,6 +53,9 @@ def fill_folder_files_into_storages(
     Recursively process all files in a folder and its subfolders,
     extracting tokens and their lemmas.
     """
+    os.makedirs(TOKENS_FOLDER, exist_ok=True)
+    os.makedirs(LEMMAS_FOLDER, exist_ok=True)
+
     for root, _, files in os.walk(foldername):
         for file in files:
             filepath = os.path.join(root, file)
