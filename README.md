@@ -35,6 +35,8 @@ python -m task2.setup
 python -m task2.main
 ```
 > заполнить `task2/lemmas.txt`, `task2/tokens.txt`
+>
+> заполнить `task2/tokens/`, `task2/lemmas/` для каждого файла
 > 
 > требуется:
 > - `task1/crawled/`
