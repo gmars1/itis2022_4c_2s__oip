@@ -46,10 +46,11 @@ python -m task2.main
 ```bash
 python -m task3.invert_index_creator
 ```
-> заполнить `task3/invert_index.txt`
+> заполнить `task3/invert_index.txt`, `task3/lemmas_invert_index.txt`, 
 > 
 > требуется:
 > - `task2/tokens.txt`
+> - `task2/lemmas.txt`
 > - `task1/crawled/`
 
 ```bash
