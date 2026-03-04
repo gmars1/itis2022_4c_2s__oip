@@ -69,3 +69,17 @@ python -m task4.main
 > - `/task2/tokens.txt` 
 > - `task2/lemmas.txt` 
 > - `task3/invert_index.txt`
+
+## task5
+
+```bash
+python -m task5.main_base
+```
+> cli для поиска
+> 
+> требуется:
+> - `task1/crawled/`
+> - `task2/lemmas.txt` 
+> - `task3/invert_index.txt`
+> - `task4/tfidf_lemmas/`
+> - `task4/tfidf_tokens/`
