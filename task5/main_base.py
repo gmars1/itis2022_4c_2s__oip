@@ -126,7 +126,7 @@ def main() -> None:
         if inp == "quit":
             closed = True
             break
-        if inp == "switch":
+        elif inp == "switch":
             inputed = False
             while not inputed:
                 npp: str = input(f"choose engine: {searchers.keys()}\n")
@@ -134,12 +134,13 @@ def main() -> None:
                     continue
                 choosen_searcher = searchers[npp]
                 inputed = True
-        # perform search
-        result = interactive_search(inp, choosen_searcher)
-        print(
-            f"\nRESULT FOR '{inp}':\n{result}\n====================================\n"
-        )
-        sleep(1)
+        else:        
+            # perform search
+            result = interactive_search(inp, choosen_searcher)
+            print(
+                f"\nRESULT FOR '{inp}':\n{result}\n====================================\n"
+            )
+            sleep(1)
 
 
 if __name__ == "__main__":
