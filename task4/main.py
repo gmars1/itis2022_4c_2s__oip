@@ -58,8 +58,8 @@ def process_file(
     with open(filename, encoding="utf-8") as f:
         for line in f:
             for word in word_tokenize(line.strip()):  # проходимся по каждому слову в файле
+                word = word.lower()
                 if word in tokens:
-                    word = word.lower()
                     tokens_count += 1
                     token_to_count.setdefault(word, 0)
                     token_to_count[word] += 1
