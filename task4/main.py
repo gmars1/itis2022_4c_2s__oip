@@ -1,6 +1,7 @@
 import os
 from typing import Dict, Set
 
+from nltk.tokenize import word_tokenize
 import numpy as np
 
 from task3.invert_index_creator import load_allowed_words_file
@@ -56,7 +57,7 @@ def process_file(
     file_index = int(filename.replace("task1/crawled/", "").replace(".txt", ""))
     with open(filename, encoding="utf-8") as f:
         for line in f:
-            for word in line.strip().split():  # проходимся по каждому слову в файле
+            for word in word_tokenize(line.strip()):  # проходимся по каждому слову в файле
                 if word in tokens:
                     tokens_count += 1
                     token_to_count.setdefault(word, 0)
