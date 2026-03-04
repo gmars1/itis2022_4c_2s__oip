@@ -17,7 +17,6 @@ def process_folder_files(
     invert_index: Dict[str, Set[int]],
     amount_of_files_total: int,
 ) -> None:
-    file_index: int = 0
     token_to_idf: Dict[str, float] = dict()
     lemma_to_idf: Dict[str, float] = dict()
 
@@ -29,7 +28,6 @@ def process_folder_files(
                 tokens,
                 token_to_lemma,
                 lemma_tokens,
-                file_index,
                 tfidf_tokens_folder,
                 tfidf_lemmas_folder,
                 invert_index,
@@ -37,7 +35,6 @@ def process_folder_files(
                 lemma_to_idf,
                 amount_of_files_total,
             )
-            file_index += 1
 
 
 def process_file(
@@ -45,7 +42,6 @@ def process_file(
     tokens: Set[str],
     token_to_lemma: Dict[str, str],
     lemma_tokens: Dict[str, Set[str]],
-    file_index: int,
     tfidf_tokens_folder: str,
     tfidf_lemmas_folder: str,
     invert_index: Dict[str, Set[int]],
@@ -56,7 +52,8 @@ def process_file(
     tokens_count = 0
     token_to_count: Dict[str, int] = dict()
     lemma_to_count: Dict[str, int] = dict()
-
+    
+    file_index = int(filename.replace("task1/crawled/", "").replace(".txt", ""))
     with open(filename, encoding="utf-8") as f:
         for line in f:
             for word in line.strip().split():  # проходимся по каждому слову в файле
