@@ -6,3 +6,6 @@ pymorphy2-dicts-ru
 setuptools<81
 
 spacy
+
+sentence-transformers
+scikit-learn
