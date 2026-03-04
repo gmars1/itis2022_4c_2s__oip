@@ -59,3 +59,14 @@ python -m task3.search
 > cli для поиска
 
 
+## task4
+
+```bash
+python -m task4.main
+```
+> заполнить `task4/tfidf_lemmas/`, `task4/tfidf_tokens`
+> 
+> требуется:
+> - `/task2/tokens.txt` 
+> - `task2/lemmas.txt` 
+> - `task3/invert_index.txt`
