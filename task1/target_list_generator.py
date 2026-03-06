@@ -1,3 +1,6 @@
+from files_accessor.files_accessor import TASK1_TARGET_LIST
+
+
 def fill_links_to_file(filename: str) -> None:
     """Generate links to crawl."""
     # записываем ссылки в файл
@@ -7,7 +10,7 @@ def fill_links_to_file(filename: str) -> None:
 
 
 def main():
-    fill_links_to_file("task1/target_list.txt")
+    fill_links_to_file(TASK1_TARGET_LIST)
     print("Complete!")
 
 

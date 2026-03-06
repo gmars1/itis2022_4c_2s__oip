@@ -5,6 +5,13 @@ from typing import Any, Dict, Optional, Set
 
 from nltk.tokenize import word_tokenize
 
+from files_accessor.files_accessor import (
+    TASK1_CRAWLED,
+    TASK2_LEMMAS,
+    TASK2_LEMMAS_FOLDER,
+    TASK2_TOKENS,
+    TASK2_TOKENS_FOLDER,
+)
 from task2.version_fr import FrProcessor
 from task2.version_rus import RusProcessor
 from task2.verson_abstarct import LanguageProcessor
@@ -17,9 +24,6 @@ class Language(Enum):
 
 rusProcessor: LanguageProcessor = RusProcessor()
 frProcessor: LanguageProcessor = FrProcessor()
-
-TOKENS_FOLDER = "task2/tokens/"
-LEMMAS_FOLDER = "task2/lemmas/"
 
 
 @lru_cache(maxsize=50_000)
@@ -53,8 +57,8 @@ def fill_folder_files_into_storages(
     Recursively process all files in a folder and its subfolders,
     extracting tokens and their lemmas.
     """
-    os.makedirs(TOKENS_FOLDER, exist_ok=True)
-    os.makedirs(LEMMAS_FOLDER, exist_ok=True)
+    os.makedirs(TASK2_TOKENS_FOLDER, exist_ok=True)
+    os.makedirs(TASK2_LEMMAS_FOLDER, exist_ok=True)
 
     for root, _, files in os.walk(foldername):
         for file in files:
@@ -102,12 +106,12 @@ def fill_file_into_storages(
                     lemmas_curr.setdefault(lemma, set()).add(word)
 
     # Write tokens
-    with open(f"{TOKENS_FOLDER}{file_index}.txt", "w", encoding="utf-8") as f:
+    with open(f"{TASK2_TOKENS_FOLDER}{file_index}.txt", "w", encoding="utf-8") as f:
         for token in sorted(tokens_curr):
             f.write(token + "\n")
 
     # Write lemmas
-    with open(f"{LEMMAS_FOLDER}{file_index}.txt", "w", encoding="utf-8") as f:
+    with open(f"{TASK2_LEMMAS_FOLDER}{file_index}.txt", "w", encoding="utf-8") as f:
         for lemma, words in sorted(lemmas_curr.items()):
             f.write(f"{lemma} {' '.join(sorted(words))}\n")
 
@@ -162,20 +166,20 @@ def main() -> None:
     lemmas: Dict[str, Set[str]] = dict()
 
     print("Processing...")
-    fill_folder_files_into_storages("task1/crawled", tokens, lemmas)
+    fill_folder_files_into_storages(TASK1_CRAWLED, tokens, lemmas)
 
     # print(detect_language.cache_info())
     # print(frProcessor.get_word_info.cache_info())
     # print(frProcessor.get_word_info.cache_info())
 
     # Write tokens
-    with open("task2/tokens.txt", "w", encoding="utf-8") as f:
+    with open(TASK2_TOKENS, "w", encoding="utf-8") as f:
         for token in sorted(tokens):
             f.write(token + "\n")
     print(f"Tokens filled: {len(tokens)} tokens")
 
     # Write lemmas
-    with open("task2/lemmas.txt", "w", encoding="utf-8") as f:
+    with open(TASK2_LEMMAS, "w", encoding="utf-8") as f:
         for lemma, words in sorted(lemmas.items()):
             f.write(f"{lemma} {' '.join(sorted(words))}\n")
     print(f"Lemmas filled: {len(lemmas)} lemmas")
