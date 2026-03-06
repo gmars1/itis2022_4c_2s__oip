@@ -4,6 +4,8 @@ import urllib.request
 
 from bs4 import BeautifulSoup
 
+from files_accessor.files_accessor import TASK1_CRAWLED, TASK1_INDEX, FilesFacade
+
 
 def load_files_and_fill_index(folder: str, links: list[str], index_file_name: str):
     os.makedirs(folder, exist_ok=True)  # если нет директории с выгрузкой - создаем
@@ -45,13 +47,6 @@ def clean_html(html: str) -> str:
     return "\n".join(lines)
 
 
-def get_links_from_file(filename: str) -> list[str]:
-    """Load links from file"""
-    with open(filename) as f:
-        links = [line for line in f]
-    return links
-
-
 def get(url: str) -> str:
     """Fetch URL content with error handling."""
     try:
@@ -67,9 +62,10 @@ def get(url: str) -> str:
 
 
 def main():
-    links = get_links_from_file("task1/target_list.txt")  # получаем ссылки
+    files = FilesFacade()
+    links = files.get_links()  # получаем ссылки
 
-    load_files_and_fill_index("task1/crawled", links, "task1/index.txt")
+    load_files_and_fill_index(TASK1_CRAWLED, links, TASK1_INDEX)
 
     print("Crawling completed!")
 
