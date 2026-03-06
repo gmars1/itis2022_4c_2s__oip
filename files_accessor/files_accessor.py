@@ -13,6 +13,9 @@ TASK2_LEMMAS_FOLDER = "task2/lemmas/"
 TASK3_INVERT_INDEX = "task3/invert_index.txt"
 TASK3_LEMMAS_INVERT_INDEX = "task3/lemmas_invert_index.txt"
 
+TASK4_TFIDF_TOKENS = "task4/tfidf_tokens"
+TASK4_TFIDF_LEMMAS = "task4/tfidf_lemmas"
+
 
 class FilesFacade:
     def get_links(self, filename: str = TASK1_TARGET_LIST) -> list[str]:

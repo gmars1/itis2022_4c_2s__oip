@@ -4,8 +4,7 @@ from typing import Dict, Set
 from nltk.tokenize import word_tokenize
 import numpy as np
 
-from task3.invert_index_creator import load_allowed_words_file
-from task3.search import load_invert_index_file, load_lemmas_file
+from files_accessor.files_accessor import FilesFacade, TASK1_CRAWLED, TASK4_TFIDF_TOKENS, TASK4_TFIDF_LEMMAS
 
 
 def process_folder_files(
@@ -53,7 +52,7 @@ def process_file(
     tokens_count = 0
     token_to_count: Dict[str, int] = dict()
     lemma_to_count: Dict[str, int] = dict()
-    
+
     file_index = int(filename.replace("task1/crawled/", "").replace(".txt", ""))
     with open(filename, encoding="utf-8") as f:
         for line in f:
@@ -107,23 +106,24 @@ def main() -> None:
     lemma_tokens: Dict[str, Set[str]] = dict()  # lemma -> tokens
     invert_index: Dict[str, Set[int]] = dict()
 
+    files = FilesFacade()
     print("Loading tokens file...")
-    load_allowed_words_file("task2/tokens.txt", allowed_words)
+    files.load_allowed_words_file(allowed_words)
 
     print("Loading lemmas file...")
-    load_lemmas_file("task2/lemmas.txt", token_to_lemma, lemma_tokens)
+    files.load_lemmas_file_bidirectional(token_to_lemma, lemma_tokens)
 
     # loading from file
     print("Loading invert index file...")
-    load_invert_index_file("task3/invert_index.txt", invert_index)
+    files.load_invert_index_file(invert_index)
 
     process_folder_files(
-        foldername="task1/crawled",
+        foldername=TASK1_CRAWLED,
         tokens=allowed_words,
         token_to_lemma=token_to_lemma,
         lemma_tokens=lemma_tokens,
-        tfidf_tokens_folder="task4/tfidf_tokens",
-        tfidf_lemmas_folder="task4/tfidf_lemmas",
+        tfidf_tokens_folder=TASK4_TFIDF_TOKENS,
+        tfidf_lemmas_folder=TASK4_TFIDF_LEMMAS,
         invert_index=invert_index,
         amount_of_files_total=109,  # todo
     )
