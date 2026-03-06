@@ -1,29 +1,8 @@
 from time import sleep
 from typing import Dict, Set
 
+from files_accessor.files_accessor import FilesFacade
 from task3.search_helper import get_indexes_of_query_word
-
-
-def load_invert_index_file(filename: str, invert_index: Dict[str, Set[int]]):
-    with open(filename, encoding="utf-8") as f:
-        for line in f:
-            splitted = line.strip().split(" ")
-            word = splitted[0]
-            indexes = set(map(int, splitted[1:]))
-            invert_index.setdefault(word, indexes)
-
-
-def load_lemmas_file(
-    filename: str, token_to_lemma: Dict[str, str], lemma_tokens: Dict[str, Set[str]]
-):
-    with open(filename, encoding="utf-8") as f:
-        for line in f:
-            splitted = line.split(" ")
-            lemma = splitted[0]
-            words = splitted[1:]
-            lemma_tokens[lemma] = set(words)
-            for word in words:
-                token_to_lemma.setdefault(word, lemma)
 
 
 def interactive_search(
@@ -177,15 +156,17 @@ def main() -> None:
     token_to_lemma: Dict[str, str] = dict()
     lemma_tokens: Dict[str, Set[str]] = dict()
 
+    files = FilesFacade()
+
     # loading from file
     print("Loading invert index file...")
-    load_invert_index_file("task3/invert_index.txt", invert_index)
+    files.load_invert_index_file(invert_index)
     
     print("Loading lemmas invert index file...")
-    load_invert_index_file("task3/lemmas_invert_index.txt", lemmas_invert_index)
+    files.load_lemmas_invert_index_file(lemmas_invert_index)
 
     print("Loading lemmas file...")
-    load_lemmas_file("task2/lemmas.txt", token_to_lemma, lemma_tokens)
+    files.load_lemmas_file_bidirectional(token_to_lemma, lemma_tokens)
 
     # REPL cicle todo
     closed = False
