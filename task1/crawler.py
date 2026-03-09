@@ -4,7 +4,7 @@ import urllib.request
 
 from bs4 import BeautifulSoup
 
-from files_accessor.files_accessor import TASK1_CRAWLED, TASK1_INDEX, FilesFacade
+from files_management.files_accessor import TASK1_CRAWLED, TASK1_INDEX, FilesAccessor
 
 
 def load_files_and_fill_index(folder: str, links: list[str], index_file_name: str):
@@ -62,7 +62,7 @@ def get(url: str) -> str:
 
 
 def main():
-    files = FilesFacade()
+    files = FilesAccessor()
     links = files.get_links()  # получаем ссылки
 
     load_files_and_fill_index(TASK1_CRAWLED, links, TASK1_INDEX)

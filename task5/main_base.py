@@ -3,10 +3,10 @@ from time import sleep
 from typing import Dict, Set
 
 from config.logger import logger
-from files_accessor.files_accessor import (
+from files_management.files_accessor import (
     TASK4_TFIDF_LEMMAS,
     TASK4_TFIDF_TOKENS,
-    FilesFacade,
+    FilesAccessor,
 )
 from task5.version_boolean_with_ranging import BooleanWithRangingSearcher
 from task5.version_protocol import Searcher
@@ -46,7 +46,7 @@ def main() -> None:
 
     doc_texts: Dict[int, str] = dict()
 
-    files = FilesFacade()
+    files = FilesAccessor()
 
     # loading from file
     print("Loading invert index file...")

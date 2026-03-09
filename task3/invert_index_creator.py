@@ -3,7 +3,7 @@ from typing import Dict, Set
 
 from nltk.tokenize import word_tokenize
 
-from files_accessor.files_accessor import TASK1_CRAWLED, TASK3_INVERT_INDEX, TASK3_LEMMAS_INVERT_INDEX, FilesFacade
+from files_management.files_accessor import TASK1_CRAWLED, TASK3_INVERT_INDEX, TASK3_LEMMAS_INVERT_INDEX, FilesAccessor
 
 
 def fill_folder_files_into_invert_index(
@@ -53,7 +53,7 @@ def main() -> None:
     lemmas_invert_index: Dict[str, Set[int]] = dict()
     word_to_lemma: Dict[str, str] = dict()
 
-    files = FilesFacade()
+    files = FilesAccessor()
     print("Loading tokens file...")
     files.load_allowed_words_file(allowed_words)
 

@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional, Set
 
 from nltk.tokenize import word_tokenize
 
-from files_accessor.files_accessor import (
+from files_management.files_accessor import (
     TASK1_CRAWLED,
     TASK2_LEMMAS,
     TASK2_LEMMAS_FOLDER,

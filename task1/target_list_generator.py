@@ -1,4 +1,4 @@
-from files_accessor.files_accessor import TASK1_TARGET_LIST
+from files_management.files_accessor import TASK1_TARGET_LIST
 
 
 def fill_links_to_file(filename: str) -> None:

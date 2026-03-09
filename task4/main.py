@@ -4,7 +4,7 @@ from typing import Dict, Set
 from nltk.tokenize import word_tokenize
 import numpy as np
 
-from files_accessor.files_accessor import FilesFacade, TASK1_CRAWLED, TASK4_TFIDF_TOKENS, TASK4_TFIDF_LEMMAS
+from files_management.files_accessor import FilesAccessor, TASK1_CRAWLED, TASK4_TFIDF_TOKENS, TASK4_TFIDF_LEMMAS
 
 
 def process_folder_files(
@@ -106,7 +106,7 @@ def main() -> None:
     lemma_tokens: Dict[str, Set[str]] = dict()  # lemma -> tokens
     invert_index: Dict[str, Set[int]] = dict()
 
-    files = FilesFacade()
+    files = FilesAccessor()
     print("Loading tokens file...")
     files.load_allowed_words_file(allowed_words)
 
