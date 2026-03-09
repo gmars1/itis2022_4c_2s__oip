@@ -69,6 +69,11 @@ def interactive_search(
     result = ", ".join(list(map(str, res)))
     return result
 
+def clean_user_inpp(inpp: str) -> str:
+    clean_query = inpp.encode("utf-16", "surrogatepass").decode("utf-16", "ignore")
+    clean_query = " ".join(clean_query.split())
+    return clean_query
+
 
 def main() -> None:
     invert_index: Dict[str, Set[int]] = dict()
@@ -125,6 +130,7 @@ def main() -> None:
     engine_chosen = False
     while not engine_chosen:
         inpp: str = input(f"choose engine: {searchers.keys()}\n")
+        inpp = clean_user_inpp(inpp)
         if inpp == "":
             inpp = "tfidf"
         if inpp not in searchers.keys():
@@ -137,6 +143,7 @@ def main() -> None:
         inp: str = input(
             "(enter 'quit' to leave):\n(enter 'switch' to change engine):\nENTER QUERY: "
         )
+        inp = clean_user_inpp(inp)
         if inp == "quit":
             closed = True
             break
@@ -144,6 +151,7 @@ def main() -> None:
             inputed = False
             while not inputed:
                 npp: str = input(f"choose engine: {searchers.keys()}\n")
+                npp = clean_user_inpp(npp)
                 if npp not in searchers.keys():
                     continue
                 choosen_searcher = searchers[npp]
