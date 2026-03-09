@@ -4,7 +4,7 @@ import urllib.request
 
 from bs4 import BeautifulSoup
 
-from files_accessor.files_accessor import TASK1_CRAWLED, TASK1_INDEX, FilesFacade
+from files_management.files_accessor import TASK1_CRAWLED, TASK1_INDEX, FilesFacade
 
 
 def load_files_and_fill_index(folder: str, links: list[str], index_file_name: str):

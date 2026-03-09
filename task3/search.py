@@ -1,7 +1,7 @@
 from time import sleep
 from typing import Dict, Set
 
-from files_accessor.files_accessor import FilesFacade
+from files_management.files_accessor import FilesFacade
 from task3.search_helper import get_indexes_of_query_word
 
 

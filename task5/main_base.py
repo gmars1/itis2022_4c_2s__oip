@@ -3,7 +3,7 @@ from time import sleep
 from typing import Dict, Set
 
 from config.logger import logger
-from files_accessor.files_accessor import (
+from files_management.files_accessor import (
     TASK4_TFIDF_LEMMAS,
     TASK4_TFIDF_TOKENS,
     FilesFacade,

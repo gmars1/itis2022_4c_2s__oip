@@ -4,7 +4,7 @@ from typing import Dict, Set
 from nltk.tokenize import word_tokenize
 import numpy as np
 
-from files_accessor.files_accessor import FilesFacade, TASK1_CRAWLED, TASK4_TFIDF_TOKENS, TASK4_TFIDF_LEMMAS
+from files_management.files_accessor import FilesFacade, TASK1_CRAWLED, TASK4_TFIDF_TOKENS, TASK4_TFIDF_LEMMAS
 
 
 def process_folder_files(
