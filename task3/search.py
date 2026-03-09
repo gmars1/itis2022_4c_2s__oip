@@ -2,7 +2,7 @@ from time import sleep
 from typing import Dict, Set
 
 from files_management.files_accessor import FilesAccessor
-from task3.search_helper import get_indexes_of_query_word
+from indexes_management.indexes_service import get_indexes_of_query_word
 
 
 def interactive_search(
