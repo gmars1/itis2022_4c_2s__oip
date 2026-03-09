@@ -18,7 +18,7 @@ TASK4_TFIDF_TOKENS = "task4/tfidf_tokens"
 TASK4_TFIDF_LEMMAS = "task4/tfidf_lemmas"
 
 
-class FilesFacade:
+class FilesAccessor:
     def get_links(self, filename: str = TASK1_TARGET_LIST) -> list[str]:
         """Load links from file"""
         with open(filename) as f:

@@ -1,7 +1,7 @@
 from time import sleep
 from typing import Dict, Set
 
-from files_management.files_accessor import FilesFacade
+from files_management.files_accessor import FilesAccessor
 from task3.search_helper import get_indexes_of_query_word
 
 
@@ -156,7 +156,7 @@ def main() -> None:
     token_to_lemma: Dict[str, str] = dict()
     lemma_tokens: Dict[str, Set[str]] = dict()
 
-    files = FilesFacade()
+    files = FilesAccessor()
 
     # loading from file
     print("Loading invert index file...")
