@@ -7,7 +7,9 @@ from task3.search import (
     load_invert_index_file,
     load_lemmas_file,
 )
+from task5.version_boolean_with_ranging import BooleanWithRangingSearcher
 from task5.version_protocol import Searcher
+from task5.version_transformer import TransformerSearcher, SelectType
 from task5.version_vector_tfidf import VectorTFIdfSearcher
 
 
@@ -68,9 +70,15 @@ def interactive_search(
     result = ", ".join(list(map(str, res)))
     return result
 
+def clean_user_inpp(inpp: str) -> str:
+    clean_query = inpp.encode("utf-16", "surrogatepass").decode("utf-16", "ignore")
+    clean_query = " ".join(clean_query.split())
+    return clean_query
+
 
 def main() -> None:
     invert_index: Dict[str, Set[int]] = dict()
+    lemmas_invert_index: Dict[str, Set[int]] = dict()
     all_lemmas: Set[str] = set()
 
     token_to_lemma: Dict[str, str] = dict()  # token -> lemma
@@ -84,6 +92,9 @@ def main() -> None:
     # loading from file
     print("Loading invert index file...")
     load_invert_index_file("task3/invert_index.txt", invert_index)
+    
+    print("Loading lemmas invert index file...")
+    files.load_lemmas_invert_index_file(lemmas_invert_index)
 
     print("Loading lemmas file...")
     load_all_lemmas_file("task2/lemmas.txt", all_lemmas)
@@ -101,8 +112,25 @@ def main() -> None:
     get_text_from_docs("task1/crawled/", doc_texts)
 
     tfidf_searcher: Searcher = VectorTFIdfSearcher(all_lemmas_list, tfidf_lemmas)
+    boolean_with_ranger_searcher: Searcher = BooleanWithRangingSearcher(
+        doc_texts,
+        invert_index,
+        lemmas_invert_index,
+        token_to_lemma,
+        lemma_tokens,
+        tfidf_tokens,
+        tfidf_lemmas,
+    )
+    transformer_searcher_max: Searcher = TransformerSearcher(doc_texts, True, SelectType.AVG)
+    # transformer_searcher_avg: Searcher = TransformerSearcher(doc_texts, True, SelectType.AVG)
+    
+    # add bm25 + transfromer 
 
-    searchers = {"tfidf": tfidf_searcher}
+    searchers = {
+        "tfidf": tfidf_searcher,
+        "boolean": boolean_with_ranger_searcher,
+        "transformer": transformer_searcher_max,
+    }
     choosen_searcher = tfidf_searcher
 
     #
@@ -111,6 +139,7 @@ def main() -> None:
     engine_chosen = False
     while not engine_chosen:
         inpp: str = input(f"choose engine: {searchers.keys()}\n")
+        inpp = clean_user_inpp(inpp)
         if inpp == "":
             inpp = "tfidf"
         if inpp not in searchers.keys():
@@ -123,6 +152,7 @@ def main() -> None:
         inp: str = input(
             "(enter 'quit' to leave):\n(enter 'switch' to change engine):\nENTER QUERY: "
         )
+        inp = clean_user_inpp(inp)
         if inp == "quit":
             closed = True
             break
@@ -130,6 +160,7 @@ def main() -> None:
             inputed = False
             while not inputed:
                 npp: str = input(f"choose engine: {searchers.keys()}\n")
+                npp = clean_user_inpp(npp)
                 if npp not in searchers.keys():
                     continue
                 choosen_searcher = searchers[npp]
