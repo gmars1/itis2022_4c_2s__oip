@@ -81,5 +81,6 @@ python -m task5.main_base
 > - `task1/crawled/`
 > - `task2/lemmas.txt` 
 > - `task3/invert_index.txt`
+> - `task3/lemmas_invert_index.txt`
 > - `task4/tfidf_lemmas/`
 > - `task4/tfidf_tokens/`

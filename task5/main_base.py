@@ -7,6 +7,7 @@ from task3.search import (
     load_invert_index_file,
     load_lemmas_file,
 )
+from task5.version_boolean_with_ranging import BooleanWithRangingSearcher
 from task5.version_protocol import Searcher
 from task5.version_vector_tfidf import VectorTFIdfSearcher
 
@@ -71,6 +72,7 @@ def interactive_search(
 
 def main() -> None:
     invert_index: Dict[str, Set[int]] = dict()
+    lemmas_invert_index: Dict[str, Set[int]] = dict()
     all_lemmas: Set[str] = set()
 
     token_to_lemma: Dict[str, str] = dict()  # token -> lemma
@@ -84,6 +86,9 @@ def main() -> None:
     # loading from file
     print("Loading invert index file...")
     load_invert_index_file("task3/invert_index.txt", invert_index)
+    
+    print("Loading lemmas invert index file...")
+    files.load_lemmas_invert_index_file(lemmas_invert_index)
 
     print("Loading lemmas file...")
     load_all_lemmas_file("task2/lemmas.txt", all_lemmas)
@@ -101,8 +106,17 @@ def main() -> None:
     get_text_from_docs("task1/crawled/", doc_texts)
 
     tfidf_searcher: Searcher = VectorTFIdfSearcher(all_lemmas_list, tfidf_lemmas)
+    boolean_with_ranger_searcher: Searcher = BooleanWithRangingSearcher(
+        doc_texts,
+        invert_index,
+        lemmas_invert_index,
+        token_to_lemma,
+        lemma_tokens,
+        tfidf_tokens,
+        tfidf_lemmas,
+    )
 
-    searchers = {"tfidf": tfidf_searcher}
+    searchers = {"tfidf": tfidf_searcher, "boolean": boolean_with_ranger_searcher}
     choosen_searcher = tfidf_searcher
 
     #
