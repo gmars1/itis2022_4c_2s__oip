@@ -9,6 +9,7 @@ from task3.search import (
 )
 from task5.version_boolean_with_ranging import BooleanWithRangingSearcher
 from task5.version_protocol import Searcher
+from task5.version_transformer import TransformerSearcher, SelectType
 from task5.version_vector_tfidf import VectorTFIdfSearcher
 
 
@@ -120,8 +121,16 @@ def main() -> None:
         tfidf_tokens,
         tfidf_lemmas,
     )
+    transformer_searcher_max: Searcher = TransformerSearcher(doc_texts, True, SelectType.AVG)
+    # transformer_searcher_avg: Searcher = TransformerSearcher(doc_texts, True, SelectType.AVG)
+    
+    # add bm25 + transfromer 
 
-    searchers = {"tfidf": tfidf_searcher, "boolean": boolean_with_ranger_searcher}
+    searchers = {
+        "tfidf": tfidf_searcher,
+        "boolean": boolean_with_ranger_searcher,
+        "transformer": transformer_searcher_max,
+    }
     choosen_searcher = tfidf_searcher
 
     #
