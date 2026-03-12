@@ -32,7 +32,7 @@ def get_indexes_of_query_word(
         lemma = language_specific_lemmatizer(
             language_specific_word_info_getter(token, lang), lang
         )
-        if lemma in lemma_invert_index.keys():
-            indexes = lemma_invert_index[str(lemma)]
+        if lemma and lemma in lemma_invert_index.keys():
+            indexes = lemma_invert_index[lemma]
             r = r.union(indexes)
     return r
