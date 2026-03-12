@@ -29,8 +29,7 @@ def load_lemmas_file(
 def interactive_search(
     user_query: str,
     invert_index: Dict[str, Set[int]],
-    token_to_lemma: Dict[str, str],
-    lemma_tokens: Dict[str, Set[str]],
+    lemmas_invert_index: Dict[str, Set[int]],
 ) -> str:
     # transform query
     user_query = user_query.lower()
@@ -42,7 +41,7 @@ def interactive_search(
     if not check_user_query(splitted):
         return "INCORRECT QUERY"
 
-    result = search(splitted, invert_index, token_to_lemma, lemma_tokens)
+    result = search(splitted, invert_index, lemmas_invert_index)
 
     if len(result) == 0:
         return "nothing has found"
@@ -78,14 +77,13 @@ def check_user_query(splitted: list[str]) -> bool:
 def search(
     splitted: list[str],
     invert_index: Dict[str, Set[int]],
-    token_to_lemma: Dict[str, str],
-    lemma_tokens: Dict[str, Set[str]],
+    lemmas_invert_index: Dict[str, Set[int]],
 ):
     """Function to search in invert index"""
     # convert to postfix notation
     postfix_query = convert_to_postfix(splitted)
     # eval query
-    return eveluate_query(postfix_query, invert_index, token_to_lemma, lemma_tokens)
+    return eveluate_query(postfix_query, invert_index, lemmas_invert_index)
 
 
 # bigger - first
@@ -136,8 +134,7 @@ def convert_to_postfix(splitted: list[str]) -> list[str]:
 def eveluate_query(
     postfix_query: list[str],
     invert_index: Dict[str, Set[int]],
-    token_to_lemma: Dict[str, str],
-    lemma_tokens: Dict[str, Set[str]],
+    lemmas_invert_index: Dict[str, Set[int]],
 ) -> Set[int]:
     stack = []
     print(f"postfix_query: {postfix_query}")
@@ -151,9 +148,7 @@ def eveluate_query(
         # если просто слово: добавляем в stack
         elif token not in PRIORITY.keys():
             stack.append(
-                get_indexes_of_query_word(
-                    token, invert_index, token_to_lemma, lemma_tokens
-                )
+                get_indexes_of_query_word(token, invert_index, lemmas_invert_index)
             )
 
         elif PRIORITY[token] == 3:
@@ -177,6 +172,7 @@ def eveluate_query(
 
 def main() -> None:
     invert_index: Dict[str, Set[int]] = dict()
+    lemmas_invert_index: Dict[str, Set[int]] = dict()
 
     token_to_lemma: Dict[str, str] = dict()
     lemma_tokens: Dict[str, Set[str]] = dict()
@@ -184,6 +180,9 @@ def main() -> None:
     # loading from file
     print("Loading invert index file...")
     load_invert_index_file("task3/invert_index.txt", invert_index)
+    
+    print("Loading lemmas invert index file...")
+    load_invert_index_file("task3/lemmas_invert_index.txt", lemmas_invert_index)
 
     print("Loading lemmas file...")
     load_lemmas_file("task2/lemmas.txt", token_to_lemma, lemma_tokens)
@@ -197,7 +196,7 @@ def main() -> None:
             closed = True
             break
         # perform search
-        result = interactive_search(inp, invert_index, token_to_lemma, lemma_tokens)
+        result = interactive_search(inp, invert_index, lemmas_invert_index)
         print(
             f"\nRESULT FOR '{inp}':\n{result}\n====================================\n"
         )

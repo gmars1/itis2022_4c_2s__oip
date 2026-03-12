@@ -10,8 +10,7 @@ from task2.main import (
 def get_indexes_of_query_word(
     token: str,
     invert_index: Dict[str, Set[int]],
-    token_to_lemma: Dict[str, str],
-    lemma_tokens: Dict[str, Set[str]],
+    lemma_invert_index: Dict[str, Set[int]],
 ) -> Set[int]:
     """
     Функция для получения индексов файлов по запросу.
@@ -33,8 +32,7 @@ def get_indexes_of_query_word(
         lemma = language_specific_lemmatizer(
             language_specific_word_info_getter(token, lang), lang
         )
-        if lemma in lemma_tokens.keys():
-            other = lemma_tokens[str(lemma)]
-            indexes = set().union(*(invert_index.get(token, set()) for token in other))
+        if lemma in lemma_invert_index.keys():
+            indexes = lemma_invert_index[str(lemma)]
             r = r.union(indexes)
     return r
