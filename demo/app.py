@@ -97,15 +97,18 @@ if search_clicked and query:
             start_t = time.time()
             
             # Вызов метода конкретного выбранного движка
-            doc_ids = current_engine.get_docs(query) 
+            doc_scores = current_engine.get_docs(query) or []
             
-            # Если движок не ограничивает выдачу сам, делаем срез здесь
-            final_ids = doc_ids[:top_k]
+            final_docs = doc_scores[:top_k]
             
             st.session_state.search_time = time.time() - start_t
             st.session_state.search_results = [
-                {"id": d_id, "text": docs.get(d_id, "Текст не найден")} 
-                for d_id in final_ids
+                {
+                    "id": doc_id,
+                    "score": score,
+                    "text": docs.get(doc_id, "Текст не найден")
+                }
+                for doc_id, score in final_docs
             ]
             st.session_state.search_query = query
         except Exception as e:
@@ -120,11 +123,15 @@ if st.session_state.search_results is not None:
         for idx, item in enumerate(res, 1):
             with st.container():
         
-                st.markdown(f"### 📄 Документ ID: `{item['id']}`")
-        
+                st.markdown(
+                    f"### 📄 Документ ID: `{item['id']}`  \n"
+                    f"**Score:** `{item['score']:.4f}`"
+                )
+                
                 st.markdown(f"""
                 <div class='result-card'>
                     <span class='score-badge'>#{idx}</span>
+                    <span class='doc-id'>score: {item['score']:.4f}</span>
                 """, unsafe_allow_html=True)
         
                 txt = item['text']
