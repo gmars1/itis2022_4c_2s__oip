@@ -3,6 +3,8 @@ from collections import namedtuple
 from functools import lru_cache
 from typing import Any, Optional
 
+from config.logger import logger
+
 # compatibility fix for Python ≥3.11
 if not hasattr(inspect, "getargspec"):
     ArgSpec = namedtuple("ArgSpec", "args varargs keywords defaults")
@@ -40,10 +42,10 @@ class RusProcessor(LanguageProcessor):
         """
         p = self.morph.parse(word)[0]
         if p.tag.POS is None:
-            print(f"rus analyzer could not analyze word: {word}")
+            logger.warning(f"rus analyzer could not analyze word: {word}")
             return None
         if p.tag.POS in self.NOT_GOOD:
-            print(f"rus analyzer: not a rus word: {word}")
+            logger.warning(f"rus analyzer: not a rus word: {word}")
             return None
         return p
 

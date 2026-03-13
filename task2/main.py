@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional, Set
 
 from nltk.tokenize import word_tokenize
 
+from config.logger import logger
 from files_management.files_accessor import (
     TASK1_CRAWLED,
     TASK2_LEMMAS,
@@ -46,7 +47,7 @@ def detect_language(word: str) -> Optional[Language]:
     if all(("a" <= char.lower() <= "z") for char in word):
         return Language.FR
 
-    print(f"cant detirmine lang: {word}")
+    logger.warning(f"cant detirmine lang: {word}")
     return None
 
 

@@ -1,5 +1,6 @@
 from typing import Dict, Set
 
+from config.logger import logger
 from task2.main import (
     detect_language,
     language_specific_lemmatizer,
@@ -27,6 +28,7 @@ def get_indexes_of_query_word(
         r = r.union(invert_index.get(token, set()))
         lang = detect_language(token)
         if not lang:
+            logger.warning(f"getting tfidf of query word: cant detect lang of: {token}")
             # print(f"CANT DETECT LANG: {token}")
             return r
         lemma = language_specific_lemmatizer(
