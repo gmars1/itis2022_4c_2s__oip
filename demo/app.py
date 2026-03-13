@@ -25,12 +25,13 @@ def get_resources():
         doc_texts = dict()
         files = FilesAccessor()
         files.get_text_from_docs(doc_texts)
-        return engines, doc_texts
+        index: dict[int, str] = files.get_index()
+        return engines, doc_texts, index
     except Exception as e:
         st.error(f"❌ Критическая ошибка инициализации: {e}")
         st.stop()
 
-engines, docs = get_resources()
+engines, docs, links_index = get_resources()
 
 # --- ИНИЦИАЛИЗАЦИЯ STATE ---
 if "search_results" not in st.session_state:
@@ -124,13 +125,11 @@ if st.session_state.search_results is not None:
             with st.container():
                 
                 st.markdown(f"""
-                <span class='score-badge'>#{idx}</span>
+                <a href="{links_index[item['id']]}" target="_blank" style="text-decoration: none; color: inherit;">
+                    <span class='score-badge'>#{idx}</span>
+                    <span style="margin-left: 10px;">id: `{item['id']}`  |  Score: `{item['score']:.4f}`</span>
+                </a>
                 """, unsafe_allow_html=True)
-        
-                st.markdown(
-                    f"### id: `{item['id']}`  \n"
-                    f"**Score:** `{item['score']:.4f}`"
-                )
                 
                 
                 txt = item['text']
