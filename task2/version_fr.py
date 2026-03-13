@@ -7,6 +7,7 @@ import spacy
 import spacy.cli
 from spacy.language import Language
 
+from config.logger import logger
 from task2.verson_abstarct import LanguageProcessor
 
 
@@ -37,7 +38,7 @@ class FrProcessor(LanguageProcessor):
         doc = nlp(word)
         if len(doc) > 0:
             return doc[0]
-        print(f"fr failed to parse word: {word}")
+        logger.warning(f"fr failed to parse word: {word}")
         return None
 
     def filter(self, word_info: Any) -> Optional[Any]:
