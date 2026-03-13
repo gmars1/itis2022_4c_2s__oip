@@ -122,18 +122,17 @@ if st.session_state.search_results is not None:
         
         for idx, item in enumerate(res, 1):
             with st.container():
+                
+                st.markdown(f"""
+                <span class='score-badge'>#{idx}</span>
+                """, unsafe_allow_html=True)
         
                 st.markdown(
-                    f"### 📄 Документ ID: `{item['id']}`  \n"
+                    f"### id: `{item['id']}`  \n"
                     f"**Score:** `{item['score']:.4f}`"
                 )
                 
-                st.markdown(f"""
-                <div class='result-card'>
-                    <span class='score-badge'>#{idx}</span>
-                    <span class='doc-id'>score: {item['score']:.4f}</span>
-                """, unsafe_allow_html=True)
-        
+                
                 txt = item['text']
                 st.write(txt[:450] + "..." if len(txt) > 450 else txt)
         
