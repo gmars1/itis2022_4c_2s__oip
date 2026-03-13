@@ -7,7 +7,7 @@
 ## before all
 
 ```bash
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ## task1
