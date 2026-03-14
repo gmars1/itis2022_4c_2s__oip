@@ -145,7 +145,7 @@ def language_specific_filter(word_info: Any, lang: Language) -> Optional[Any]:
         return None
 
 
-def language_specific_lemmatizer(word_info: Any, lang: Language) -> Optional[Any]:
+def language_specific_lemmatizer(word_info: Any, lang: Language) -> Optional[str]:
     """
     Get lemma for a word based on its language.
     """

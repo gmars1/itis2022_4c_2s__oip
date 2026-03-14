@@ -56,8 +56,11 @@ class RusProcessor(LanguageProcessor):
             return None
         return word_info
 
-    def get_lemma(self, word_info: Any) -> Optional[Any]:
+    def get_lemma(self, word_info: Any) -> Optional[str]:
         """
         Returns the normalized lemma (normal_form) of a Russian word.
         """
-        return word_info.normal_form
+        try:
+            return str(word_info.normal_form)
+        except Exception:
+            return None

@@ -53,6 +53,7 @@ class FrProcessor(LanguageProcessor):
         """
         Returns the lemma of a French word.
         """
-        if word_info:
-            return word_info.lemma_
-        return None
+        try:
+            return str(word_info.lemma_)
+        except Exception:
+            return None

@@ -16,6 +16,6 @@ class LanguageProcessor(Protocol):
         """Filter a word based on language-specific criteria."""
         ...
 
-    def get_lemma(self, word_info: Any) -> Optional[Any]:
+    def get_lemma(self, word_info: Any) -> Optional[str]:
         """Return the lemma of a word."""
         ...
