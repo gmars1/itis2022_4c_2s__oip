@@ -3,58 +3,15 @@ from time import sleep
 from typing import Dict, Set
 
 from config.logger import logger
-from task3.search import (
-    load_invert_index_file,
-    load_lemmas_file,
+from files_management.files_accessor import (
+    TASK4_TFIDF_LEMMAS,
+    TASK4_TFIDF_TOKENS,
+    FilesAccessor,
 )
 from task5.version_boolean_with_ranging import BooleanWithRangingSearcher
 from task5.version_protocol import Searcher
 from task5.version_transformer import TransformerSearcher, SelectType
 from task5.version_vector_tfidf import VectorTFIdfSearcher
-
-
-def get_text_from_docs(foldername: str, doc_texts: Dict[int, str]) -> None:
-    for root, _, files in os.walk(foldername):
-        for file in files:
-            filepath = os.path.join(root, file)
-            file_index = int(filepath.replace("task1/crawled/", "").replace(".txt", ""))
-            with open(filepath, encoding="utf-8") as f:
-                doc_texts.setdefault(file_index, f.read())
-
-
-def load_all_lemmas_file(file: str, all_lemmas: Set[str]):
-    with open(file, encoding="utf-8") as f:
-        for line in f:
-            all_lemmas.add(line.strip().split()[0])
-
-
-def load_tfidf_folders(
-    tfidf_tokens_folder: str,
-    tfidf_lemmas_folder: str,
-    tfidf_tokens: Dict[int, Dict[str, list[float]]],
-    tfidf_lemmas: Dict[int, Dict[str, list[float]]],
-):
-    for root, _, files in os.walk(tfidf_tokens_folder):
-        for file in files:
-            filepath = os.path.join(root, file)
-            with open(filepath, encoding="utf-8") as f:
-                index = int(filepath[19:-4])
-                data: Dict[str, list[float]] = dict()
-                for line in f:
-                    splitted = line.split()
-                    data.setdefault(splitted[0], list(map(float, splitted[1:3])))
-                tfidf_tokens.setdefault(index, data)
-
-    for root, _, files in os.walk(tfidf_lemmas_folder):
-        for file in files:
-            filepath = os.path.join(root, file)
-            with open(filepath, encoding="utf-8") as f:
-                index = int(filepath[19:-4])
-                data = dict()
-                for line in f:
-                    splitted = line.split()
-                    data.setdefault(splitted[0], list(map(float, splitted[1:3])))
-                tfidf_lemmas.setdefault(index, data)
 
 
 def interactive_search(
@@ -89,27 +46,27 @@ def main() -> None:
 
     doc_texts: Dict[int, str] = dict()
 
+    files = FilesAccessor()
+
     # loading from file
     print("Loading invert index file...")
-    load_invert_index_file("task3/invert_index.txt", invert_index)
+    files.load_invert_index_file(invert_index)
     
     print("Loading lemmas invert index file...")
     files.load_lemmas_invert_index_file(lemmas_invert_index)
 
     print("Loading lemmas file...")
-    load_all_lemmas_file("task2/lemmas.txt", all_lemmas)
+    files.load_lemmas_file_to_set(all_lemmas)
     all_lemmas_list = sorted(all_lemmas)
 
     print("Loading lemmas file...")
-    load_lemmas_file("task2/lemmas.txt", token_to_lemma, lemma_tokens)
+    files.load_lemmas_file_bidirectional(token_to_lemma, lemma_tokens)
 
     print("Loading tfidf folders...")
-    load_tfidf_folders(
-        "task4/tfidf_tokens", "task4/tfidf_lemmas", tfidf_tokens, tfidf_lemmas
-    )
+    files.load_tfidf_folders(tfidf_tokens, tfidf_lemmas)
 
     print("Load doc texts")
-    get_text_from_docs("task1/crawled/", doc_texts)
+    files.get_text_from_docs(doc_texts)
 
     tfidf_searcher: Searcher = VectorTFIdfSearcher(all_lemmas_list, tfidf_lemmas)
     boolean_with_ranger_searcher: Searcher = BooleanWithRangingSearcher(
@@ -165,7 +122,7 @@ def main() -> None:
                     continue
                 choosen_searcher = searchers[npp]
                 inputed = True
-        else:        
+        else:
             # perform search
             result = interactive_search(inp, choosen_searcher)
             print(
