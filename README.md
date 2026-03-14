@@ -84,3 +84,10 @@ python -m task5.main_base
 > - `task3/lemmas_invert_index.txt`
 > - `task4/tfidf_lemmas/`
 > - `task4/tfidf_tokens/`
+
+## DEMO
+
+```bash
+streamlit run demo/app.py
+```
+

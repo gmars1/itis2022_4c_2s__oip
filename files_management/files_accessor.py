@@ -37,7 +37,13 @@ class FilesAccessor:
                 with open(filepath, encoding="utf-8") as f:
                     doc_texts.setdefault(file_index, f.read())
 
-    # def get_index(self):
+    def get_index(self, filename: str = TASK1_INDEX) -> dict[int, str]:
+        index = dict()
+        with open(filename) as f:
+            for line in f:
+                id, link = line.split(" ")
+                index.setdefault(int(id), link)
+        return index
 
     def load_allowed_words_file(
         self, allowed_words: Set[str], filename: str = TASK2_TOKENS
