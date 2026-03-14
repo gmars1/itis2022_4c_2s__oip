@@ -102,7 +102,7 @@ class TransformerSearcher(Searcher):
 
         return vec
 
-    def get_docs(self, query: str) -> List[int]:
+    def get_docs(self, query: str) -> list[tuple[int, float]]:
         query_vec = self._get_query_vec(query)
 
         # 1. Получаем сходство для ВСЕХ чанков (например, их 100)
@@ -130,6 +130,6 @@ class TransformerSearcher(Searcher):
 
         # 4. Берем топ-K уникальных ID
         # top_k = 10
-        result_ids = [doc_id for doc_id, score in sorted_docs]
+        result_ids = [(doc_id, score) for doc_id, score in sorted_docs]
 
         return result_ids

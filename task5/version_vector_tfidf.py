@@ -94,7 +94,7 @@ class VectorTFIdfSearcher(Searcher):
 
         return vec
 
-    def get_docs(self, query: str) -> List[int]:
+    def get_docs(self, query: str) -> list[tuple[int, float]]:
         """Get document IDs sorted by relevance to query using cosine similarity"""
         query_vec = self._get_query_vec(query)
 
@@ -125,4 +125,4 @@ class VectorTFIdfSearcher(Searcher):
         )
 
         # Return document IDs in order of relevance
-        return [doc_id for doc_id, _ in scores]
+        return [(doc_id, score.item()) for doc_id, score in scores]

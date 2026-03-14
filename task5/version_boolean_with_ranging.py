@@ -111,7 +111,7 @@ class BooleanWithRangingSearcher(Searcher):
         query_postfix_notation: list[str],
         tfidf_tokens: Dict[int, Dict[str, list[float]]],
         tfidf_lemmas: Dict[int, Dict[str, list[float]]],
-    ) -> list[int]:
+    ) -> list[tuple[int, float]]:
         logger.debug(f"query_postfix_notation: {query_postfix_notation}")
 
         doc_scores = dict()
@@ -154,9 +154,9 @@ class BooleanWithRangingSearcher(Searcher):
         logger.debug(f"sorted_docs: {sorted_docs_pretty}")
 
         # Возвращаем только список doc_id
-        return [doc_id for doc_id, score in sorted_docs]
+        return [(doc_id, score) for doc_id, score in sorted_docs]
 
-    def get_docs(self, query: str) -> List[int]:
+    def get_docs(self, query: str) -> list[tuple[int, float]]:
         query_postfix_notation = self._query_to_postfix_notation(query)
 
         filtered = self._filter_docs(query_postfix_notation)
