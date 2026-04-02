@@ -59,7 +59,7 @@ with st.sidebar:
 
     top_k = st.slider(
         "Количество результатов",
-        min_value=1, max_value=20, value=5
+        min_value=1, max_value=20, value=10
     )
 
     st.divider()
