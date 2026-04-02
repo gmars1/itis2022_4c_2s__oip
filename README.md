@@ -91,3 +91,5 @@ python -m task5.main_base
 streamlit run demo/app.py
 ```
 
+
+![фото интерфейса](imgs/1.png)
